@@ -42,6 +42,10 @@
 
                     </li>
                     <li >
+                        <a href="{{route('bookings.index')}}" class=" block hover:bg-blue-200 p-4 rounded-lg font-bold text-xl"> Bookings</a>
+                        </li>
+
+                    <li >
                         <a href="{{route('branches.index')}}" class=" block hover:bg-blue-200 p-4 rounded-lg font-bold text-xl"> Branches</a>
                         </li>
                         <li >
