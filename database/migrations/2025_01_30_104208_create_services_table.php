@@ -16,8 +16,8 @@ return new class extends Migration
 
 
  $table->string('name');  // Name of the service (e.g., Haircut, Manicure)
-            $table->string('image')->nullable(); // Image for the service
-            $table->text('description');  // Description of the service
+ $table->string('image')->default('default-image.jpg'); // Set a default image
+ $table->text('description');  // Description of the service
             $table->integer('duration');  // Duration of the service in minutes
             $table->decimal('price', 8, 2);  // Price of the service
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');  // Foreign key for categories table

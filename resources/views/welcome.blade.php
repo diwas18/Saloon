@@ -8,9 +8,11 @@
         Experience premium hair styling services for both men and women in a modern, comfortable environment.
         Our expert stylists are here to help you look and feel your best.
     </p>
-    <button class="mt-6 bg-gray-900 text-white px-6 py-2 rounded-md hover:bg-gray-700">
-        Book Your Visit
-    </button>
+    <a href="{{ route('bookings.create') }}">
+        <button class="mt-6 bg-gray-900 text-white px-6 py-2 rounded-md hover:bg-gray-700">
+            Book Your Visit
+        </button>
+    </a>
 </section>
 
 <section class="py-12">

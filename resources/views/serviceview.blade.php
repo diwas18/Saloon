@@ -28,8 +28,8 @@
                     </div>
 
                     <div class="mt-4">
-                        <a href="{{ route('serviceview', $service->id) }}" class="block text-center bg-blue-600 text-white py-2 rounded hover:bg-blue-500">
-                            View Details
+                        <a href="{{ route('bookings.create', ['service_id' => $service->id]) }}" class="block text-center bg-blue-600 text-white py-2 rounded hover:bg-blue-500">
+                            Book Now
                         </a>
                     </div>
                 </div>

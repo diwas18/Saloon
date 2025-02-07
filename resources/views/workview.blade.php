@@ -32,9 +32,7 @@
                 </div>
 
                 <div class="mt-6">
-                    <a href="{{ route('works.edit', $work->id) }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transform hover:scale-105 transition-all duration-300">
-                        ✏️ Edit Work
-                    </a>
+                   
                 </div>
             </div>
         </div>
