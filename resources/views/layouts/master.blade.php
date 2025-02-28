@@ -77,6 +77,7 @@
         <div class="grid grid-cols-3 gap-8">
            <!-- About Section -->
             <div id="aboutus">
+
                 <h2 class="text-white font-semibold text-lg">Sunshine Saloon</h2>
                 <p class="mt-2 text-sm">
                     Premium hair styling services for men and women in a modern, comfortable environment.
