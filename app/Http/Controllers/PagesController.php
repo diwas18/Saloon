@@ -26,12 +26,13 @@ class PagesController extends Controller
 
     public function serviceview($id)
     {
-        $services = Service::with(['category', 'expert'])->get();
-        $relatedServices = Service::with(['category', 'expert'])
-         ->where('id', '!=', $id)
-         ->inRandomOrder()->limit(3)->get();
-        return view('serviceview', compact('services','relatedServices'));
+        // Fetch the service by its ID with related 'category' and 'expert' details
+        $service = Service::with(['category', 'expert'])->findOrFail($id);
+
+        // Return the service data to the view
+        return view('serviceview', compact('service'));
     }
+
 
 
 
@@ -66,20 +67,24 @@ class PagesController extends Controller
         return view('workview', compact('work', 'relatedWorks'));
     }
 
-    // branchview
 
     public function branchview($id)
-{
-    $branch = Branch::findOrFail($id);
+    {
+        // Fetch branch details (ensure the branch exists or show 404 if not found)
+        $branch = Branch::findOrFail($id);
 
-    // Fetch related branches excluding the current one
-    $relatedBranches = Branch::where('id', '!=', $id)
-                            ->orderBy('created_at', 'desc') // Optional: Order by latest
-                            ->limit(6) // Optional: Limit to 6 related branches
-                            ->get();
+        // Fetch services associated with this branch, eager load the 'category' and 'expert' relationships
+        $services = $branch->services()->with(['category', 'expert'])->get();
 
-    return view('branchview', compact('branch', 'relatedBranches'));
-}
+        // Return the branch details along with associated services to the view
+        return view('branchview', compact('branch', 'services'));
+    }
+
+
+
+
+
+
 
 
 

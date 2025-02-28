@@ -32,6 +32,7 @@ Route::resource('works', WorkController::class);
 
 Route:: resource('branches', BranchController::class);
 
+
 Route:: resource('bookings', BookingController::class);
 
 

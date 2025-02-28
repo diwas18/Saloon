@@ -32,7 +32,7 @@
                 </div>
 
                 <div class="mt-6">
-                   
+
                 </div>
             </div>
         </div>

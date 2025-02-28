@@ -23,4 +23,18 @@ class Branch extends Model
     {
         return $this->hasMany(Booking::class);
     }
+    public function services()
+{
+    return $this->belongsToMany(Service::class, 'branch_service', 'branch_id', 'service_id');
+}
+
+    public function service()
+    {
+        return $this->belongsTo(Service::class); // Ensure this relation exists
+    }
+
+
+
+
+
 }

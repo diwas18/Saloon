@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Branch;
+use App\Models\Service;
 use Illuminate\Http\Request;
 
 class BranchController extends Controller
@@ -10,6 +11,7 @@ class BranchController extends Controller
     // Show list of branches
     public function index()
     {
+
         $branches = Branch::all();
         return view('branches.index', compact('branches'));
     }
@@ -86,4 +88,13 @@ class BranchController extends Controller
         $branch->delete();
         return redirect()->route('branches.index')->with('success', 'Branch deleted successfully.');
     }
+    public function getServiceExperts($service_id)
+{
+    $services = Service::findOrFail($service_id);
+
+    $experts = $services->expert()->select('id', 'name')->get();
+
+    return response()->json($experts);
+}
+
 }

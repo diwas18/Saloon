@@ -25,6 +25,7 @@
                         <th class="border px-4 py-2 text-left text-sm font-semibold text-blue-600">Price</th>
                         <th class="border px-4 py-2 text-left text-sm font-semibold text-blue-600">Category</th>
                         <th class="border px-4 py-2 text-left text-sm font-semibold text-blue-600">Expert</th>
+                        <th class="border px-4 py-2 text-left text-sm font-semibold text-blue-600">Branch</th>
                         <th class="border px-4 py-2 text-left text-sm font-semibold text-blue-600">Appointment Type</th>
                         <th class="border px-4 py-2 text-left text-sm font-semibold text-blue-600">Actions</th>
                     </tr>
@@ -45,6 +46,7 @@
                             <td class="border px-4 py-2">₹{{ number_format($service->price, 2) }}</td>
                             <td class="border px-4 py-2">{{ $service->category->name ?? 'N/A' }}</td>
                             <td class="border px-4 py-2">{{ $service->expert->name ?? 'N/A' }}</td>
+                            <td class="border px-4 py-2">{{ $service->branch->name ?? 'N/A' }}</td>
                             <td class="border px-4 py-2">{{ ucfirst($service->appointment_type) }}</td>
                             <td class="border px-4 py-2">
                                 <a href="{{ route('services.edit', $service->id) }}" class="text-blue-500 hover:text-blue-700 transform hover:scale-105 transition-all duration-300">Edit</a>

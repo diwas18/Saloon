@@ -30,6 +30,11 @@ class Expert extends Model
     {
         return $this->belongsTo(Category::class);
     }
+    public function branches()
+{
+    return $this->belongsToMany(Branch::class, 'service_branch'); // Pivot table name
 }
-    //
+
+}
+
 

@@ -50,7 +50,7 @@
             </div>
 
             <div class="flex justify-center space-x-4 mt-6">
-                <a href="{{ route('bookings.index') }}" class="bg-gray-500 text-white px-5 py-2 rounded hover:bg-gray-600 transform hover:scale-105 transition-all duration-300">
+                <a href="{{ route('welcome') }}" class="bg-gray-500 text-white px-5 py-2 rounded hover:bg-gray-600 transform hover:scale-105 transition-all duration-300">
                     Cancel
                 </a>
                 <button type="submit" class="bg-blue-500 text-white px-5 py-2 rounded hover:bg-blue-600 transform hover:scale-105 transition-all duration-300">

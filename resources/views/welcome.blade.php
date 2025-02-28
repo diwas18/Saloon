@@ -16,15 +16,16 @@
 </section>
 
 <section class="py-12">
-    <h2 class="text-center text-2xl font-bold text-gray-900">Our Services</h2>
+    <h2 class="text-center text-2xl font-bold text-gray-900">Our Branches</h2>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto mt-8">
-        @foreach ($services as $service)
-            <a href="{{ route('serviceview', $service->id) }}" class="transition-all transform hover:scale-105">
-                <div class="hover:bg-gray-200">
-                    <img src="{{ asset('storage/' . $service->image) }}" class="w-full h-64 object-cover rounded-lg">
+        @foreach ($branches as $branch)
+            <a href="{{route('branchview',$branch->id)}}" class="transition-all transform hover:scale-105">
+                <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                    <img src="{{ asset('storage/' . $branch->image) }}"
+                         alt="{{ $branch->name }}"
+                         class="w-full h-48 object-cover">
                     <div class="p-4 text-center">
-                        <h3 class="font-semibold">{{ $service->name }}</h3>
-                        <p class="text-gray-600 text-sm">{{ $service->description }}</p>
+                        <h3 class="font-semibold text-lg">{{ $branch->name }}</h3>
                     </div>
                 </div>
             </a>
@@ -48,23 +49,7 @@
     </div>
 </section>
 
-<section class="py-12">
-    <h2 class="text-center text-2xl font-bold text-gray-900">Our Branches</h2>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto mt-8">
-        @foreach ($branches as $branch)
-            <a href="{{route('branchview',$branch->id)}}" class="transition-all transform hover:scale-105">
-                <div class="bg-white shadow-lg rounded-lg overflow-hidden">
-                    <img src="{{ asset('storage/' . $branch->image) }}"
-                         alt="{{ $branch->name }}"
-                         class="w-full h-48 object-cover">
-                    <div class="p-4 text-center">
-                        <h3 class="font-semibold text-lg">{{ $branch->name }}</h3>
-                    </div>
-                </div>
-            </a>
-        @endforeach
-    </div>
-</section>
+
 
 
 <section class="py-12 bg-gray-100">

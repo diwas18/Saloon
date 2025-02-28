@@ -70,6 +70,18 @@
             </div>
 
             <div class="mb-4">
+                <label for="branch_id" class="block text-lg font-semibold">Branch</label>
+                <select id="branch_id" name="branch_id" class="w-full p-3 border border-gray-300 rounded-md" required>
+                    <option value="">Select Branch</option>
+                    @foreach ($branches as $branch)
+                        <option value="{{ $branch->id }}" {{ old('branch_id', $service->branch_id) == $branch->id ? 'selected' : '' }}>{{ $branch->name }}</option>
+                    @endforeach
+                </select>
+                @error('branch_id') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+            </div>
+
+
+            <div class="mb-4">
                 <label for="image" class="block text-lg font-semibold">Service Image</label>
                 <input type="file" id="image" name="image" class="w-full p-3 border border-gray-300 rounded-md">
 

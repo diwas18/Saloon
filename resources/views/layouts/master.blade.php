@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Saloon</title>
+    <title>Sunshine Saloon</title>
 
     <link rel="shortcut icon" href="{{ asset('storage/images/logo.webp') }}" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet"/>
@@ -14,7 +14,9 @@
     @include('layouts.alert')
 
     <nav class="shadow bg-white px-16 py-4 flex justify-between items-center fixed top-0 left-0 w-full opacity-90 z-50">
-        <img src="{{ asset('storage/images/logo.webp') }}" alt="Logo" class="h-12">
+        <a href="{{ route('welcome') }}">
+            <img src="{{ asset('storage/images/logo.webp') }}" alt="Logo" class="h-12">
+        </a>
 
         <div class="flex gap-8 items-center">
 
@@ -35,7 +37,7 @@
 
             <!-- Other Links -->
             <a href="" class="text-gray-600 hover:text-black">Gallery</a>
-            <a href="" class="text-gray-600 hover:text-black">About</a>
+            <a href="#aboutus" class="text-gray-600 hover:text-black">About</a>
             <a href="" class="text-gray-600 hover:text-black">Our Team</a>
             <a href="{{route('bookings.create')}}" class="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800">
                 Book Now
@@ -73,8 +75,8 @@
     <!-- Footer -->
     <footer class="bg-gray-900 text-gray-300 px-16 py-8">
         <div class="grid grid-cols-3 gap-8">
-            <!-- About Section -->
-            <div>
+           <!-- About Section -->
+            <div id="aboutus">
                 <h2 class="text-white font-semibold text-lg">Sunshine Saloon</h2>
                 <p class="mt-2 text-sm">
                     Premium hair styling services for men and women in a modern, comfortable environment.
