@@ -63,6 +63,7 @@
 
             <div class="p-4 flex-1">
                 @yield('content')
+
             </div>
         </div>
     </body>
