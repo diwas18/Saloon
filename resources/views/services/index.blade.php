@@ -10,9 +10,6 @@
         </div>
 
         <div class="mt-6">
-            @if (session('success'))
-                <div class="bg-green-200 p-2 mb-4">{{ session('success') }}</div>
-            @endif
 
             <!-- Services Table -->
             <table class="min-w-full table-auto border-collapse border border-gray-300">

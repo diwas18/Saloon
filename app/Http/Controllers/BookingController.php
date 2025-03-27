@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Booking;
-use App\Models\User;
 use App\Models\Branch;
+use App\Models\Service;
 use App\Models\Expert;
 use Carbon\Carbon;
 
@@ -13,50 +13,31 @@ class BookingController extends Controller
 {
     public function index()
     {
-        $bookings = Booking::with(['user', 'branch', 'expert'])->get();
+        $bookings = Booking::with(['branch', 'expert'])->get();
         return view('bookings.index', compact('bookings'));
     }
 
     public function create()
     {
-        $users = User::all();
         $branches = Branch::all();
+        $services = Service::all();
         $experts = Expert::all();
         $timeSlots = $this->generateTimeSlots('09:00', '18:00', 30); // 30-minute slots
 
-        return view('bookings.create', compact('users', 'branches', 'experts', 'timeSlots'));
+        return view('bookings.create', compact('branches','services', 'experts', 'timeSlots'));
     }
 
     public function store(Request $request)
     {
-        // Validate input
-        $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'branch_id' => 'required|exists:branches,id',
-            'expert_id' => 'nullable|exists:experts,id',
-            'booking_date' => 'required|date|after_or_equal:today',
-            'booking_time' => 'required',
-        ]);
+        $validatedData = $this->validateBooking($request);
 
-        // Check if the slot is already booked
-        $alreadyBooked = Booking::where('branch_id', $request->branch_id)
-            ->where('booking_date', $request->booking_date)
-            ->where('booking_time', $request->booking_time)
-            ->exists();
-
-        if ($alreadyBooked) {
-            return back()->withErrors(['booking_time' => 'This time slot is already booked.']);
+        // Check if the time slot is already booked
+        if ($this->isTimeSlotBooked($request->branch_id, $request->booking_date, $request->booking_time)) {
+            return back()->withErrors(['booking_time' => 'This time slot is already booked.'])->withInput();
         }
 
-        // Create booking
-        Booking::create([
-            'user_id' => $request->user_id,
-            'branch_id' => $request->branch_id,
-            'expert_id' => $request->expert_id,
-            'booking_date' => $request->booking_date,
-            'booking_time' => $request->booking_time,
-            'status' => 'pending',
-        ]);
+        // Create the booking
+        Booking::create($validatedData + ['status' => 'pending']);
 
         return redirect()->route('welcome')->with('success', 'Booking created successfully.');
     }
@@ -64,47 +45,26 @@ class BookingController extends Controller
     public function edit($id)
     {
         $booking = Booking::findOrFail($id);
-        $users = User::all();
         $branches = Branch::all();
+        $services = Service::all();
         $experts = Expert::all();
         $timeSlots = $this->generateTimeSlots('09:00', '18:00', 30);
 
-        return view('bookings.edit', compact('booking', 'users', 'branches', 'experts', 'timeSlots'));
+        return view('bookings.edit', compact('booking', 'branches', 'services','experts', 'timeSlots'));
     }
 
     public function update(Request $request, $id)
     {
         $booking = Booking::findOrFail($id);
+        $validatedData = $this->validateBooking($request, $id);
 
-        // Validate input
-        $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'branch_id' => 'required|exists:branches,id',
-            'expert_id' => 'nullable|exists:experts,id',
-            'booking_date' => 'required|date|after_or_equal:today',
-            'booking_time' => 'required',
-        ]);
-
-        // Check if the slot is already booked (excluding current booking)
-        $alreadyBooked = Booking::where('branch_id', $request->branch_id)
-            ->where('booking_date', $request->booking_date)
-            ->where('booking_time', $request->booking_time)
-            ->where('id', '!=', $id)
-            ->exists();
-
-        if ($alreadyBooked) {
-            return back()->withErrors(['booking_time' => 'This time slot is already booked.']);
+        // Check if the time slot is already booked (excluding the current booking)
+        if ($this->isTimeSlotBooked($request->branch_id, $request->booking_date, $request->booking_time, $id)) {
+            return back()->withErrors(['booking_time' => 'This time slot is already booked.'])->withInput();
         }
 
         // Update booking
-        $booking->update([
-            'user_id' => $request->user_id,
-            'branch_id' => $request->branch_id,
-            'expert_id' => $request->expert_id,
-            'booking_date' => $request->booking_date,
-            'booking_time' => $request->booking_time,
-            'status' => $request->status,
-        ]);
+        $booking->update($validatedData);
 
         return redirect()->route('bookings.index')->with('success', 'Booking updated successfully.');
     }
@@ -130,5 +90,38 @@ class BookingController extends Controller
         }
 
         return $slots;
+    }
+
+    /**
+     * Validate booking input.
+     */
+    private function validateBooking(Request $request, $excludeId = null)
+    {
+        return $request->validate([
+            'name' => ['required', 'regex:/^[A-Za-z\s]+$/', 'max:255'],
+            'email' => ['required', 'email', 'max:255'],
+            'contact_number' => ['required', 'regex:/^(98|97)\d{8}$/'],
+            'service_id' => ['required', 'exists:services,id'],
+            'branch_id' => ['required', 'exists:branches,id'],
+            'expert_id' => ['nullable', 'exists:experts,id'],
+            'booking_date' => ['required', 'date', 'after_or_equal:today'],
+            'booking_time' => ['required'],
+        ], [
+            'name.regex' => 'Name should contain only alphabets and spaces.',
+            'email.email' => 'Please enter a valid email address.',
+            'contact_number.regex' => 'Contact number must start with 98 or 97 and have exactly 10 digits.',
+        ]);
+    }
+
+    /**
+     * Check if the time slot is already booked.
+     */
+    private function isTimeSlotBooked($branchId, $date, $time, $excludeId = null)
+    {
+        return Booking::where('branch_id', $branchId)
+            ->where('booking_date', $date)
+            ->where('booking_time', $time)
+            ->when($excludeId, fn($query) => $query->where('id', '!=', $excludeId))
+            ->exists();
     }
 }

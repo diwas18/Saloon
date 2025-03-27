@@ -4,9 +4,7 @@
     <div class="container mx-auto p-4">
         <div class="flex justify-between items-center mb-4">
             <h1 class="text-3xl font-semibold text-blue-600 transform hover:scale-105 transition-all duration-300">Add New Work</h1>
-            <a href="{{ route('works.index') }}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transform hover:scale-105 transition-all duration-300">
-                ⬅ Back to Works
-            </a>
+
         </div>
 
         @if ($errors->any())
@@ -56,8 +54,13 @@
             </div>
 
             <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transform hover:scale-105 transition-all duration-300">
-                ✅ Save Work
+                Save Work
             </button>
+            <a href="{{ route('works.index') }}" class="bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600 transform hover:scale-105 transition-all duration-300">
+                 Cancel
+            </a>
+
+
         </form>
     </div>
 @endsection

@@ -116,6 +116,11 @@
                         <button type="submit" class="bg-blue-500 text-white p-3 rounded hover:bg-blue-600 transform hover:scale-105 transition-all duration-300">
                             Save Service
                         </button>
+
+                        <a href="{{ route('services.index') }}" class="bg-gray-500 text-white p-3 rounded hover:bg-gray-600 transform hover:scale-105 transition-all duration-300 ml-4">
+                            Cancel
+                        </a>
+
                     </div>
                 </div>
             </form>

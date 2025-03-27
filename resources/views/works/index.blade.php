@@ -10,9 +10,7 @@
         </div>
 
         <div class="mt-6">
-            @if (session('success'))
-                <div class="bg-green-200 p-2 mb-4 text-green-700 rounded">{{ session('success') }}</div>
-            @endif
+
 
             <!-- Works Table -->
             <div class="overflow-x-auto">
@@ -43,16 +41,17 @@
                                     @endif
                                 </td>
                                 <td class="border px-4 py-2">{{ Str::limit($work->description, 50) }}</td>
-                                <td class="border px-4 py-2">{{ $work->expert->name }}</td>
+                                <td class="border px-4 py-2">{{ $work->expert->name ?? 'N/A' }}</td>
                                 <td class="border px-4 py-2">
                                     {{ $work->completed_at ? $work->completed_at->format('d M Y, h:i A') : 'Not Set' }}
-                                </td>                                <td class="border px-4 py-2">
-                                    <a href="{{ route('works.edit', $work->id) }}" class="text-blue-500 hover:text-blue-700 transform hover:scale-105 transition-all duration-300">✏️ Edit</a>
+                                </td>
+                                <td class="border px-4 py-2">
+                                    <a href="{{ route('works.edit', $work->id) }}" class="text-blue-500 hover:text-blue-700 transform hover:scale-105 transition-all duration-300"> Edit</a>
                                     |
                                     <form action="{{ route('works.destroy', $work->id) }}" method="POST" style="display:inline;">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="text-red-500 hover:text-red-700 transform hover:scale-105 transition-all duration-300" onclick="return confirm('Are you sure?')">🗑 Delete</button>
+                                        <button type="submit" class="text-red-500 hover:text-red-700 transform hover:scale-105 transition-all duration-300" onclick="return confirm('Are you sure?')"> Delete</button>
                                     </form>
                                 </td>
                             </tr>

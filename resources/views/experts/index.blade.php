@@ -1,61 +1,58 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container mx-auto p-6">
-        <h1 class="text-2xl font-bold text-gray-800">Experts</h1>
-        <a href="{{ route('experts.create') }}" class="bg-gray-600 text-white px-4 py-2 rounded mt-4 inline-block">Add New Expert</a>
+    <div class="container mx-auto">
+        <div class="flex justify-between items-center mb-4">
+            <h1 class="text-3xl font-semibold text-blue-600 transform hover:scale-105 transition-all duration-300">Experts</h1>
+            <a href="{{ route('experts.create') }}" class="bg-blue-500 text-white p-2 rounded mt-4 hover:bg-blue-600 transform hover:scale-105 transition-all duration-300">
+                Add New Expert
+            </a>
+        </div>
 
         <div class="mt-6">
-            @if (session('success'))
-                <div class="bg-green-200 text-green-800 p-2 mb-4 rounded">
-                    {{ session('success') }}
-                </div>
-            @endif
 
-            <div class="overflow-x-auto">
-                <table class="min-w-full border border-gray-300 shadow-md rounded-lg">
-                    <thead class="bg-gray-300 text-gray-700">
-                        <tr>
-                            <th class="border border-gray-400 px-4 py-2">Name</th>
-                            <th class="border border-gray-400 px-4 py-2">Specialization</th>
-                            <th class="border border-gray-400 px-4 py-2">Experience (Years)</th>
-                            <th class="border border-gray-400 px-4 py-2">Rating</th>
-                            <th class="border border-gray-400 px-4 py-2">Availability</th>
-                            <th class="border border-gray-400 px-4 py-2">Profile Picture</th>
-                            <th class="border border-gray-400 px-4 py-2">Actions</th>
+
+            <!-- Experts Table -->
+            <table class="min-w-full table-auto border-collapse border border-gray-300">
+                <thead class="bg-gray-200">
+                    <tr>
+                        <th class="border px-4 py-2 text-left text-sm font-semibold text-blue-600">Name</th>
+                        <th class="border px-4 py-2 text-left text-sm font-semibold text-blue-600">Specialization</th>
+                        <th class="border px-4 py-2 text-left text-sm font-semibold text-blue-600">Experience (Years)</th>
+                        <th class="border px-4 py-2 text-left text-sm font-semibold text-blue-600">Rating</th>
+                        <th class="border px-4 py-2 text-left text-sm font-semibold text-blue-600">Availability</th>
+                        <th class="border px-4 py-2 text-left text-sm font-semibold text-blue-600">Profile Picture</th>
+                        <th class="border px-4 py-2 text-left text-sm font-semibold text-blue-600">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($experts as $expert)
+                        <tr class="transition-all duration-300 hover:bg-gray-100">
+                            <td class="border px-4 py-2">{{ $expert->name }}</td>
+                            <td class="border px-4 py-2">{{ $expert->specialization }}</td>
+                            <td class="border px-4 py-2">{{ $expert->experience_years }}</td>
+                            <td class="border px-4 py-2">{{ $expert->rating ?? 'N/A' }}</td>
+                            <td class="border px-4 py-2">{{ $expert->availability }}</td>
+                            <td class="border px-4 py-2">
+                                @if ($expert->profile_picture)
+                                    <img src="{{ asset('storage/' . $expert->profile_picture) }}" alt="Profile Picture" class="w-16 h-16 object-cover rounded-full mx-auto">
+                                @else
+                                    <span>No Image</span>
+                                @endif
+                            </td>
+                            <td class="border px-4 py-2">
+                                <a href="{{ route('experts.edit', $expert->id) }}" class="text-blue-500 hover:text-blue-700 transform hover:scale-105 transition-all duration-300">Edit</a>
+                                |
+                                <form action="{{ route('experts.destroy', $expert->id) }}" method="POST" style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-red-500 hover:text-red-700 transform hover:scale-105 transition-all duration-300">Delete</button>
+                                </form>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody class="bg-gray-100">
-                        @foreach ($experts as $expert)
-                            <tr class="border border-gray-300">
-                                <td class="border border-gray-400 px-4 py-2 text-gray-800">{{ $expert->name }}</td>
-                                <td class="border border-gray-400 px-4 py-2 text-gray-800">{{ $expert->specialization }}</td>
-                                <td class="border border-gray-400 px-4 py-2 text-gray-800">{{ $expert->experience_years }}</td>
-                                <td class="border border-gray-400 px-4 py-2 text-gray-800">{{ $expert->rating ?? 'N/A' }}</td>
-                                <td class="border border-gray-400 px-4 py-2 text-gray-800">{{ $expert->availability }}</td>
-                                <td class="border border-gray-400 px-4 py-2 text-center">
-                                    @if ($expert->profile_picture)
-                                        <img src="{{ asset('storage/' . $expert->profile_picture) }}"
-                                            alt="Profile Picture"
-                                            class="w-12 h-12 rounded-full mx-auto">
-                                    @else
-                                        <span class="text-gray-500">No Image</span>
-                                    @endif
-                                </td>
-                                <td class="border border-gray-400 px-4 py-2 text-center">
-                                    <a href="{{ route('experts.edit', $expert->id) }}" class="text-blue-500 hover:underline">Edit</a>
-                                    |
-                                    <form action="{{ route('experts.destroy', $expert->id) }}" method="POST" class="inline-block">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="text-red-500 hover:underline">Delete</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
     </div>
 @endsection

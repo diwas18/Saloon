@@ -17,6 +17,10 @@ class isadmin
     public function handle(Request $request, Closure $next): Response
 
     {
+        if (!Auth::check()) {
+            // If the user is not logged in, show a 403 Forbidden error
+            return redirect()->route('welcome')->with('success','No enough permission');
+        }
         if(Auth::user()->role == 'admin'){
             return $next($request);
         }

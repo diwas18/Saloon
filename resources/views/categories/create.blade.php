@@ -20,7 +20,11 @@
         </div>
 
         <div class="mb-4">
+
             <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition">Create Category</button>
+
+            <a href="{{ route('categories.index') }}" class="bg-gray-500 text-white px-6 py-2 rounded-md hover:bg-gray-700 transition">Cancel</a>
+
         </div>
     </form>
 </div>
